@@ -2,7 +2,7 @@
 
 The following project was done as a solution for Cybernetica 2023 Internship bonus task and does not provide any meaningful functionalities.
 
-#Prerequisites
+# Prerequisites
 | Technology                                 | Version |
 |------------------------------------------|--------|
 | Node                          | v19.3.0     |
