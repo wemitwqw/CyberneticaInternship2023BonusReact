@@ -1,35 +1,67 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useEffect, useState } from 'react'
 import './App.css'
 
+import { Table, Layout} from 'antd';
+const { Content } = Layout;
+
+
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [data, setData] = useState();
+
+  useEffect(() => {
+    fetch('http://localhost:8080/applications')
+       .then((res) => res.json())
+       .then((data) => {
+          console.log(data);
+          setData(data);
+       })
+       .catch((err) => {
+          console.log(err.message);
+       });
+  }, []);
+
+  const columns = [
+    {
+      title: 'Application ID',
+      dataIndex: 'id',
+      key: 'id',
+    },
+    {
+      title: 'First Name',
+      dataIndex: 'candidate',
+      key: 'id',
+      render: item => Object.values(item)[1],
+    },
+    {
+      title: 'Last Name',
+      dataIndex: 'candidate',
+      key: 'id',
+      render: item => Object.values(item)[2],
+    },
+    {
+      title: 'Application State',
+      dataIndex: 'applicationState',
+      key: 'id',
+    },
+    {
+      title: 'Interview',
+      key: 'id',
+      dataIndex: 'interview',
+      render: item => item ? Object.values(item)[1] : null,
+    },
+  ];
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <div style={{ padding: 24, backgroundColor: 'rgba(0,0,0,0)' }}>
+      <Layout>
+        <Content style={{ margin: '24px 16px 0' }}>
+          <Table columns={columns} dataSource={data} />
+        </Content>
+      </Layout>
+      <div style={{ marginTop: 20}}>Made for Cybernetica Internship 2023</div>
     </div>
-  )
-}
+  );
 
-export default App
+}
+export default App;
